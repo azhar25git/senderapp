@@ -1,0 +1,64 @@
+version: '3'
+
+
+networks:
+  sender_network:
+
+
+services:
+  sender_nginx:
+    image: nginx:stable-alpine
+    container_name: sender_nginx
+    ports:
+      - "8090:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - sender_app
+      - sender_pgsql
+      - sender_redis
+    
+    networks:
+      - sender_network
+
+
+  sender_pgsql:
+    image: postgres
+    container_name: sender_pgsql
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "6432:5432"
+    volumes:
+      - ./pgsql:/var/lib/pgsql
+    environment:
+      POSTGRES_DB: homestead
+      POSTGRES_USER: homestead
+      POSTGRES_PASSWORD: secret
+    networks:
+      - sender_network
+
+  
+  sender_redis:
+    image: redis
+    container_name: sender_redis
+    ports:
+      - "6382:6379"
+    networks:
+      - sender_network
+
+
+  sender_app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: sender_app
+    tty: true
+    volumes:
+    - ./src:/var/www/html
+    ports:
+      - "9000:9000"
+    networks:
+      - sender_network
+
