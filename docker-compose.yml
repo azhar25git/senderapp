@@ -1,10 +1,6 @@
 version: '3'
 
 
-networks:
-  sender_network:
-
-
 services:
   sender_nginx:
     image: nginx:stable-alpine
@@ -30,8 +26,9 @@ services:
     tty: true
     ports:
       - "6432:5432"
+    user: "1000:1000"
     volumes:
-      - ./pgsql:/var/lib/pgsql
+      - ./pgsql/data:/var/lib/postgresql/data
     environment:
       POSTGRES_DB: homestead
       POSTGRES_USER: homestead
@@ -51,7 +48,10 @@ services:
 
   sender_app:
     build:
-      context: .
+      args:
+          user: www
+          uid: 1000
+      context: ./
       dockerfile: Dockerfile
     container_name: sender_app
     tty: true
@@ -59,6 +59,12 @@ services:
     - ./src:/var/www/html
     ports:
       - "9000:9000"
+      - "5173:5173"
     networks:
       - sender_network
+
+
+networks:
+  sender_network:
+    driver: bridge
 
