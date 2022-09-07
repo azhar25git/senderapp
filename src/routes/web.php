@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\FilterController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PeopleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::match(['get','post'],'/people', [PeopleController::class, 'listData'])->name('people');
+// Route::match(['get','post'],'/filter', [FilterController::class, 'filter'])->name('filter');

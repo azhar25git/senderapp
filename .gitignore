@@ -1,1 +1,2 @@
-pgsql/*
+pgsql/data/*
+nginx/logs/*
