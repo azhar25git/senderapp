@@ -17,6 +17,7 @@ An example on how the interface may look like can be found here: https://www.fig
 
 ``` docker-compose build && docker-compose up -d ```
 
+- You need to migrate and import the database placed in  pgsql/test-data.sql to see the table and filter
 - Visit the link http://localhost:8090/people in your browser and check the page and the data
 
 # senderapp
