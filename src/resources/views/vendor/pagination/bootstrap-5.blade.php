@@ -52,7 +52,7 @@
                              - 
                             <span class="">{{ $paginator->lastItem() }}</span>
                             <span class="fw-normal">{!! __('of') !!}</span>
-                            <span class="">{{ round($paginator->total()/$paginator->perPage()) }}</span>
+                            <span class="">{{ floor($paginator->total()/$paginator->perPage())+1 }}</span>
                         </p>
                     </div>
                     {{-- Pagination Elements --}}
