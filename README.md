@@ -10,4 +10,13 @@ Display results to the user in a paginated table, with 20 rows per page. Paginat
 NOTE: Page number must not be a part of cache key. Instead, all rows from database that match filtering criteria (month, year) must be stored in Redis, and pagination should retrieve only the required rows from Redis.
 
 An example on how the interface may look like can be found here: https://www.figma.com/file/CgzEuikiavWxnATzw8umdv/sender-(scratch)?node-id=904%3A2 
+
+# Solution:
+- A full docker container with all services run separately is done.
+- To build project go to the project root folder and run the command 
+
+``` docker-compose build && docker-compose up -d ```
+
+- Visit the link http://localhost:8090/people in your browser and check the page and the data
+
 # senderapp
