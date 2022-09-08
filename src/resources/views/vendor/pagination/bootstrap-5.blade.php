@@ -26,32 +26,35 @@
             </ul>
         </div>
 
-        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-between">
-            <div>
-                <p class="small text-muted">
-                    {!! __('Showing') !!}
-                    <span class="fw-semibold">{{ $paginator->firstItem() }}</span>
-                    {!! __('to') !!}
-                    <span class="fw-semibold">{{ $paginator->lastItem() }}</span>
-                    {!! __('of') !!}
-                    <span class="fw-semibold">{{ $paginator->total() }}</span>
-                    {!! __('results') !!}
+        <div class="d-none flex-sm-fill d-sm-flex align-items-sm-center justify-content-sm-end py-2">
+            <div class="me-5">
+                <p class="small mb-0">
+                    <span class="fw-bold">{{ $paginator->total() }} people in the list</span>
                 </p>
             </div>
 
             <div>
-                <ul class="pagination">
+                <div class="pagination fw-bold">
                     {{-- Previous Page Link --}}
                     @if ($paginator->onFirstPage())
-                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
-                            <span class="page-link" aria-hidden="true">&lsaquo;</span>
-                        </li>
+                        <span class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.previous')">
+                            <span class="page-link" aria-hidden="true">←</span>
+                        </span>
                     @else
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">&lsaquo;</a>
-                        </li>
+                        <span class="page-item">
+                            <a class="page-link" href="{{ $paginator->previousPageUrl() }}" rel="prev" aria-label="@lang('pagination.previous')">←</a>
+                        </span>
                     @endif
 
+                    <div class="mx-2 d-flex align-items-center">
+                        <p class="small mb-0">
+                            <span class="">{{ $paginator->firstItem() }}</span>
+                             - 
+                            <span class="">{{ $paginator->lastItem() }}</span>
+                            <span class="fw-normal">{!! __('of') !!}</span>
+                            <span class="">{{ round($paginator->total()/$paginator->perPage()) }}</span>
+                        </p>
+                    </div>
                     {{-- Pagination Elements --}}
                     {{-- @foreach ($elements as $element) --}}
                         {{-- "Three Dots" Separator --}}
@@ -73,13 +76,13 @@
 
                     {{-- Next Page Link --}}
                     @if ($paginator->hasMorePages())
-                        <li class="page-item">
-                            <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">&rsaquo;</a>
-                        </li>
+                        <span class="page-item">
+                            <a class="page-link" href="{{ $paginator->nextPageUrl() }}" rel="next" aria-label="@lang('pagination.next')">→</a>
+                        </span>
                     @else
-                        <li class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
-                            <span class="page-link" aria-hidden="true">&rsaquo;</span>
-                        </li>
+                        <span class="page-item disabled" aria-disabled="true" aria-label="@lang('pagination.next')">
+                            <span class="page-link" aria-hidden="true">→</span>
+                        </span>
                     @endif
                 </ul>
             </div>

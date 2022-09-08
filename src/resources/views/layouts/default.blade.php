@@ -8,7 +8,7 @@
 
 </head>
 
-<body style="background-color: #DDDDDD;">
+<body>
 
     <div class="container">
 

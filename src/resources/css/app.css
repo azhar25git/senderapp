@@ -1,0 +1,48 @@
+body {
+    font-family: Roboto, sans-serif;
+    background-color: #F5F5F5;
+}
+
+input {
+    color: #999999;
+}
+
+.table {
+    background: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.101972);
+    border-radius: 5px;
+}
+
+.page-link {
+    padding: 1px 5px;
+    background-color: #EEEEEE;
+    border-radius: 5px;
+    color: #000;
+    font-weight: 700;
+    border: 0px;
+}
+
+.btn-custom {
+    color: #FFFFFF;
+    background-color: #FF8D00;
+    border-radius: 5px;
+    padding: 6px 30px;
+    font-weight: 700;
+}
+
+.page-item.disabled .page-link {
+    color: #000;
+    background-color: #EEEEEE;
+    opacity: 50%;
+    border: 0px;
+}
+
+.checked-row {
+    background-color: #DDDDDD;
+}
+
+.badge-custom {
+    color: #555555;
+    background-color: #EEEEEE;
+}

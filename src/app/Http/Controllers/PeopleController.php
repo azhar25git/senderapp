@@ -128,7 +128,9 @@ class PeopleController extends Controller
         }
         $limit =  config('sender.limit') + $limit;
 
-        $people = $this->paginate($people, config('sender.limit'))->withPath(route('people'))->withQueryString();
+        $people = $this ->paginate($people, config('sender.limit'))
+                        ->withPath(route('people'))
+                        ->withQueryString();
 
         return view('people.index', [
             'people' => $people
