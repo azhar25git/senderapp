@@ -9,94 +9,15 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Session;
-use Illuminate\Support\Facades\View;
 
 class PeopleController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Make a list of people which are filterable
      *
-     * @return \Illuminate\Http\Response
+     * @param Request $req
+     * @return void
      */
-    public function index(Request $request)
-    {
-        // $this->validate($request, [
-        //     'year' => 'integer',
-        //     'month' => 'integer',
-        //     'filter' => 'sometimes|integer',
-        //     'page' => 'sometimes|integer',
-        // ]);
-
-        // $skip = 0;
-        // $limit = 0;
-
-        // if ($request->page > 1) {
-        //     $limit = (config('sender.limit') * ($request->page - 1));
-        // }
-        // $limit =  config('sender.limit') + $limit;
-        // config('sender.cache_key') = 'people-filter';
-        // if(request('filter') == 1){
-        //     if(!isset($people)){
-        //         if(Cache::has(config('sender.cache_key'))) {
-        //             $people = Cache::get(config('sender.cache_key'));
-        //         } else {
-        //             $people = People::all();
-        //             Cache::put(config('sender.cache_key'), $people);
-        //         }
-        //     } else {
-        //         $people = Cache::get(config('sender.cache_key'));
-        //     }
-        // }
-        // if(request('filter') == 1){
-        //     if(request('year') > 0) {
-        //         Session::put('year', request('year'));
-        //     } else {
-        //         Session::forget('year');
-        //     }
-
-        //     if(request('month') > 0) {
-        //         Session::put('month', request('month'));
-        //     } else {
-        //         Session::forget('month');
-        //     }
-
-        //     $people = People::query();
-        //     $people->when(Session::has('year'), function($q) {
-        //         return $q->whereYear('dob', Session::get('year'));
-        //     });
-    
-        //     $people->when(Session::has('month'), function($q) {
-        //         return $q->whereMonth('dob', Session::get('month'));
-        //     });
-        //     $people = $people->get();
-        //     Cache::put(config('sender.cache_key'), $people, 60);
-        //     $people = $this->paginate($people, config('sender.limit'));
-        //     return redirect()->view("people.index")->with([
-        //         "people" => $people
-        //     ]);
-        //     // View::make("people.index")
-        //     //     ->with([
-        //     //         "people" => $people
-        //     //         ])
-        //     //     ->render();
-        // }
-
-        // if(count($people)){
-        //     $people = $people
-        //     ->skip($skip)
-        //     ->take($limit);
-        // }
-
-        // $people = $this->paginate($people, config('sender.limit'));
-        // $output = View::make("people.index")
-        //     ->with([
-        //         "people" => $people
-        //         ])
-        //     ->render();
-
-        // echo $output;
-    }
-
     public function listData(Request $req)
     {
         // validation
@@ -120,13 +41,12 @@ class PeopleController extends Controller
         $people = $this->pullDataCache($req);
         
         // pagination
-        $skip = 0;
-        $limit = 0;
+        // $limit = 0;
 
-        if ($req->page > 1) {
-            $limit = (config('sender.limit') * ($req->page - 1));
-        }
-        $limit =  config('sender.limit') + $limit;
+        // if ($req->page > 1) {
+        //     $limit = (config('sender.limit') * ($req->page - 1));
+        // }
+        // $limit =  config('sender.limit') + $limit;
 
         $people = $this ->paginate($people, config('sender.limit'))
                         ->withPath(route('people'))
@@ -137,7 +57,12 @@ class PeopleController extends Controller
         ]);
     }
 
-
+    /**
+     * Get cached data or prepare cache
+     *
+     * @param Request $req
+     * @return void
+     */
     private function pullDataCache(Request $req)
     {
         if(Cache::has(config('sender.cache_key'))) {
@@ -150,10 +75,15 @@ class PeopleController extends Controller
         return $people;
     }
 
-
+    /**
+     * Fetch filtered data from DB
+     *
+     * @param Request $req
+     * @return void
+     */
     private function getFilteredData(Request $req)
     {
-        if(session()->get('year') == 0 && session()->get('month')) {
+        if(session()->get('year') == 0 && session()->get('month') == 0) {
             $people = People::get();
         } else {
             $people = People::query();
@@ -171,7 +101,15 @@ class PeopleController extends Controller
         return $people;
     }
 
-
+    /**
+     * Create custom data pagination for Laravel collection object
+     *
+     * @param [type] $items
+     * @param integer $perPage
+     * @param [type] $page
+     * @param array $options
+     * @return void
+     */
     public function paginate($items, $perPage = 15, $page = null, $options = [])
     {
         $page = $page ?: (Paginator::resolveCurrentPage() ?: 1);
